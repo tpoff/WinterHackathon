@@ -247,11 +247,49 @@ def SearchTwitter(search_text="Dallas Interesting", result_count=15):
   
   return response.json()
 
+def GenerateHTML(wiki="", flickr="", youtube="", web_file="/Users/cv0361/src/Hackathon/WebResult.html"):
+  strhtml = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Search Results</title>
+      <meta charset='utf-8'>
+    </head>
+    <body>
+
+    <style type="text/css">
+      #wiki {
+                background-color: #aaf3c9;
+            }
+      #flickr {
+          background-color: #a1d2f2;
+      }       
+      #youtube {
+          background-color: #efcef3;
+      }
+      .square {     
+        padding: 15px;
+            }       
+    </style> 
+    
+    <h1>Search Result</h1>
+  """
+  
+  strhtml += f"{wiki} {flickr} {youtube} </body></html>"
+  
+  with open(web_file, "w") as file1:
+    file1.write(strhtml)
+  
+  return strhtml
+
 
 
 
 # Test Functions
 print("\n\n***************** Testing **********************\n")
+
+GenerateHTML()
+
 
 # x = RecordInput()
 # print("Result:", x)
@@ -262,10 +300,10 @@ print("\n\n***************** Testing **********************\n")
 # x = ShortenText(x)
 # print("Result:", x)
 
-# Context: History, Geography, Economy, Education, Transportation
-x = SearchWiki_WithContext(search_text="tokyo", context="Transportation")       
-x = ShortenText(x, result_length=500)
-print("Result:", x)
+# # Context: History, Geography, Economy, Education, Transportation
+# x = SearchWiki_WithContext(search_text="tokyo", context="Transportation")       
+# # x = ShortenText(x, result_length=500)
+# print("Result:", x)
 
 # x = SearchYoutube()
 # print("Result:", x)
