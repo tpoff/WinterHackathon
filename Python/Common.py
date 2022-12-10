@@ -284,39 +284,39 @@ def GenerateHTML(wiki="", flickr="", youtube="", web_file="/Users/cv0361/src/Hac
 
 
 
+if __name__ == "__main__":
+    # Test Functions
+    print("\n\n***************** Testing **********************\n")
 
-# Test Functions
-print("\n\n***************** Testing **********************\n")
-
-GenerateHTML()
-
-
-# x = RecordInput()
-# print("Result:", x)
-# x = TranscribeAudio()
-# print("Result:", x)
-
-# x = SearchWiki(search_text="dallas")
-# x = ShortenText(x)
-# print("Result:", x)
-
-# # Context: History, Geography, Economy, Education, Transportation
-# x = SearchWiki_WithContext(search_text="tokyo", context="Transportation")       
-# # x = ShortenText(x, result_length=500)
-# print("Result:", x)
-
-# x = SearchYoutube()
-# print("Result:", x)
-# x = SearchYoutube_GetHTML(search_text="Tokyo Interesting Fact", result_count=50)
-# print("Result:", x)
-
-# x = SearchFlickr()
-# print("Result:", x)
-# x = SearchFlickr_GetHTML(search_text="Dallas Texas landscape", result_count=50)
-# print("Result:", x)
-
-# x = SearchTwitter()
-# print("Result:", x)
+    GenerateHTML()
 
 
-print("\n\n***************** Completed **********************\n")
+    # x = RecordInput()
+    # print("Result:", x)
+    # x = TranscribeAudio()
+    # print("Result:", x)
+
+    # x = SearchWiki(search_text="dallas")
+    # x = ShortenText(x)
+    # print("Result:", x)
+
+    # # Context: History, Geography, Economy, Education, Transportation
+    # x = SearchWiki_WithContext(search_text="tokyo", context="Transportation")
+    # # x = ShortenText(x, result_length=500)
+    # print("Result:", x)
+
+    # x = SearchYoutube()
+    # print("Result:", x)
+    # x = SearchYoutube_GetHTML(search_text="Tokyo Interesting Fact", result_count=50)
+    # print("Result:", x)
+
+    # x = SearchFlickr()
+    # print("Result:", x)
+    # x = SearchFlickr_GetHTML(search_text="Dallas Texas landscape", result_count=50)
+    # print("Result:", x)
+
+    # x = SearchTwitter()
+    # print("Result:", x)
+
+
+    print("\n\n***************** Completed **********************\n")
