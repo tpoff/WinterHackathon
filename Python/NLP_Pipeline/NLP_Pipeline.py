@@ -65,3 +65,7 @@ class NLP_Pipeline:
             major_category, major_category_score = self.nlp_get_info_category_strat_multi_point_category(text_input)
 
         return subject, major_category
+
+
+    def __call__(self, text_input):
+        return self.pipeline(text_input)

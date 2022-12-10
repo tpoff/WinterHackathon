@@ -8,9 +8,8 @@ import json
 import time
 from threading import Thread
 
-auth_key = "b9be974194ad478e99a45c3f8b2b5824"
+auth_key = "fccbf82dc51d4fc2952bd17d3f1fb82d"
 FRAMES_PER_BUFFER = 3200
-FRAMES_PER_BUFFER = 1600
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 16000
@@ -31,6 +30,7 @@ class Live_Speech_To_Text_Pipeline(Thread):
             rate=RATE,
             input=True,
             frames_per_buffer=FRAMES_PER_BUFFER)
+        self.ready = False
 
     def run(self):
         async def send_receive():
@@ -68,7 +68,7 @@ class Live_Speech_To_Text_Pipeline(Thread):
                 async def receive():
                     while True:
                         try:
-
+                            self.ready = True
                             result_str = await _ws.recv()
                             # keys in return json: message_type, session_id,
                             # audio_start, audio_end, confidence, text, words, created (timestamp of original request)
