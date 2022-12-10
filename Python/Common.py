@@ -93,8 +93,37 @@ def SearchWiki(search_text="Dallas"):
 
   return response
 
-def SearchWiki_Short(search_text="Dallas", result_length=300):
-  response = SearchWiki(search_text)
+def SearchWiki_WithContext(search_text="Dallas", context="History"):
+  import wikipedia
+  
+  Page = wikipedia.page(search_text)
+  text = Page.content
+  
+  context_lowcase = f"= {context} =".lower()
+  text_lowcase = text.lower()
+
+  position = text_lowcase.find(context_lowcase)
+  print("position:", position)
+  
+  if position < 0:                                              # not found?
+      print("Search with Context not found")
+      return SearchWiki(search_text)
+
+  position = text_lowcase.find("\n", position)                  # Offset to end of tag
+  print("position:", position)
+
+  position2 = text_lowcase.find("== ", position)
+  if (position2 < 0) or ((position2 - position) < 50): 
+      position2 = len(text_lowcase)                              # Not found ending section
+
+  print("position2:", position2)     
+
+  text_found = text[position:position2].replace("\n", "")
+  
+  return text_found
+
+def ShortenText(original_text, result_length=300):
+  response = original_text
   response = response[0:result_length]
   position = response.rfind(" ")
   response = response[0:position]
@@ -224,20 +253,19 @@ def SearchTwitter(search_text="Dallas Interesting", result_count=15):
 # Test Functions
 print("\n\n***************** Testing **********************\n")
 
-x = SearchTwitter()
-print("Result:", x)
-
-
-
 # x = RecordInput()
 # print("Result:", x)
 # x = TranscribeAudio()
 # print("Result:", x)
 
-# x = SearchWiki()
+# x = SearchWiki(search_text="dallas")
+# x = ShortenText(x)
 # print("Result:", x)
-# x = SearchWiki_Short()
-# print("Result:", x)
+
+# Context: History, Geography, Economy, Education, Transportation
+x = SearchWiki_WithContext(search_text="tokyo", context="Transportation")       
+x = ShortenText(x, result_length=500)
+print("Result:", x)
 
 # x = SearchYoutube()
 # print("Result:", x)
@@ -248,5 +276,9 @@ print("Result:", x)
 # print("Result:", x)
 # x = SearchFlickr_GetHTML(search_text="Dallas Texas landscape", result_count=50)
 # print("Result:", x)
+
+# x = SearchTwitter()
+# print("Result:", x)
+
 
 print("\n\n***************** Completed **********************\n")
