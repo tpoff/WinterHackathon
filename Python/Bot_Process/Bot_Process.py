@@ -20,7 +20,7 @@ class LastRoundStatus(Enum):
     FAILURE = 1
 
 class Bot_Process(Thread):
-    def __init__(self):
+    def __init__(self, response_output_directory="./"):
         Thread.__init__(self)
         self.bot_loop_step = BotLoopStep.SETUP
         self.speech_to_text_pipeline = Live_Speech_To_Text_Pipeline()
@@ -33,10 +33,15 @@ class Bot_Process(Thread):
 
         self.subject = ""
         self.category = ""
+        self.last_response_ready = time.time()
+        self.response_output_directory = response_output_directory
 
     @property
     def last_message(self):
         return self.speech_to_text_pipeline.last_message
+    @property
+    def partial_message(self):
+        return self.speech_to_text_pipeline.partial_message
 
     def run(self):
         self.speech_to_text_pipeline.start()
@@ -46,15 +51,25 @@ class Bot_Process(Thread):
         while True:
             self.bot_round()
 
-    def bot_round(self):
-        print("in standby...")
+
+    def generate_response(self):
+        # TODO
+        #wiki_text = SearchWiki_WithContext(search_text=self.subject, context=self.category)
+        #prompt = self.subject + " " + self.category
+        #youtube_content = SearchYoutube(prompt)
+        #flickr_content = SearchFlickr(prompt)
+        #twitter_content = SearchTwitter(prompt)
+        self.text_to_speech_pipeline("and here we go again", "./temp.wav")
+
+    def bot_round(self, verbose=False):
+        if verbose: print("in standby...")
         self.bot_loop_step = BotLoopStep.STANDBY
 
         while not self.speech_to_text_pipeline.reading_message and\
                 self.last_message_time == self.speech_to_text_pipeline.last_message_time:
             time.sleep(.1)
 
-        print("listening to message...")
+        if verbose: print("listening to message...")
         self.bot_loop_step = BotLoopStep.READING_MESSAGE
 
         while self.last_message_time == self.speech_to_text_pipeline.last_message_time:
@@ -63,16 +78,17 @@ class Bot_Process(Thread):
         self.last_message_time = self.speech_to_text_pipeline.last_message_time
 
 
-        print("processing nlp...")
+        if verbose: print("processing nlp...")
         self.bot_loop_step = BotLoopStep.PROCESSING_NLP
         self.subject,  self.category = self.nlp_pipeline(self.last_message)
 
-        print("constructing responses...")
+        if verbose: print("constructing responses...")
         self.bot_loop_step = BotLoopStep.DATA_LOOKUP
-        # TODO
-        time.sleep(1)
+        self.generate_response()
+        self.last_response_ready = time.time()
 
-        print("that's all folks, ")
+
+        if verbose: print("end of round, ")
         self.bot_loop_step = BotLoopStep.STANDBY
 
 
