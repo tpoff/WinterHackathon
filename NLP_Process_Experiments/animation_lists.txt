@@ -1,0 +1,24 @@
+ok, not an experiment per say, but a way to keep track of what animations I may want in mixamo,
+https://www.mixamo.com/#/?page=4&query=gesture
+
+intro:
+    standing up animation?
+    allright hear me out now, there's a wobbling animation, with some spin it could look ok,
+    falling animation edited/cut off?
+idle
+    shoulder rubbing
+    neck stretching
+    happy
+    relieved sigh
+listening
+    thoughtful head nod?
+thinking
+processing
+    standing using touch screen
+displaying
+    talking
+no results
+talking
+    lots of talking anims
+    head nods might be passable
+
