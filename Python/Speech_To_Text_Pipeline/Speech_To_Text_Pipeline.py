@@ -122,9 +122,11 @@ if __name__ == "__main__":
     pipeline = Live_Speech_To_Text_Pipeline()
     pipeline.start()
     while True:
-        time.sleep(1)
-        print(pipeline.reading_message)
-        print(pipeline.last_message)
-        print(pipeline.last_message_time)
+        time.sleep(.25)
+        print()
+        print("is transcribing:",pipeline.reading_message)
+        print("partial message: ",pipeline.partial_message)
+        print("last complete message: ",pipeline.last_message)
+        print("last complete message time:",pipeline.last_message_time)
 
     sys.exit()
