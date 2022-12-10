@@ -78,6 +78,13 @@ async def send_receive():
 
         send_result, receive_result = await asyncio.gather(send(), receive())
 
+
+
+
+
 asyncio.run(send_receive())
 
 print("and so we begin")
+while True:
+    time.sleep(5)
+    print("ping")
