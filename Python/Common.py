@@ -107,7 +107,7 @@ def SearchWiki(search_text="Dallas"):
 
   return response
 
-def SearchWiki_WithContext(search_text="Dallas", context="History"):
+def SearchWiki_WithContext(search_text="Dallas", context=None):
   if VERBOSE:
     print("=> SearchWiki_WithContext()")
     print("search_text:", search_text)
@@ -115,6 +115,12 @@ def SearchWiki_WithContext(search_text="Dallas", context="History"):
     
   import wikipedia
   
+  # Generic Search option?
+  if (context == None) or (context == "") or (context.lower() == "generic"):                                              # not found?
+      if VERBOSE: print("Generic Search")
+      return SearchWiki(search_text)
+  
+  # Context search
   Page = wikipedia.page(search_text)
   text = Page.content
   
@@ -357,8 +363,8 @@ def GenerateHTML(wiki=None, flickr=None, youtube=None, web_file="/Users/cv0361/s
   strhtml += "</body></html>"
   
   # Persist html to file
-  with open(web_file, "w", encoding='utf-8') as file1:
-    file1.write(str(strhtml))
+  with open(web_file, "w") as file1:
+    file1.write(strhtml)
   
   return strhtml
 
@@ -369,12 +375,13 @@ if __name__ == "__main__":
     print("\n\n***************** Testing **********************\n")
 
     # ***************** Combined **********************\
-    wiki = SearchWiki_WithContext(search_text="London", context="History")
+    wiki = SearchWiki_WithContext(search_text="Dallas")
+    # wiki = SearchWiki_WithContext(search_text="Dallas", context="History")
     wiki = ShortenText(wiki, result_length=500)
     
-    flickr = SearchFlickr_GetHTML(search_text="London landscape", result_count=28)
+    flickr = SearchFlickr_GetHTML(search_text="Dallas landscape", result_count=28)
     
-    youtube = SearchYoutube_GetHTML(search_text="London Interesting Fact", result_count=5)
+    youtube = SearchYoutube_GetHTML(search_text="Dallas Interesting Fact", result_count=5)
     
     html = GenerateHTML(wiki=wiki + " ...", flickr=flickr, youtube=youtube)     # wiki=wiki + "...", flickr=flickr, youtube=youtube
     # print("html:", html)
