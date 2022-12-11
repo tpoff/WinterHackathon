@@ -16,8 +16,9 @@ class BotLoopStep(Enum):
     DATA_LOOKUP = 4
 
 class LastRoundStatus(Enum):
-    SUCCESS = 0
-    FAILURE = 1
+    NOT_RUN=0
+    SUCCESS = 1
+    NO_SUBJECT = 2
 
 class Bot_Process(Thread):
     def __init__(self, response_output_directory="./"):
@@ -29,12 +30,23 @@ class Bot_Process(Thread):
 
         self.last_message_time = self.speech_to_text_pipeline.last_message_time
 
-        self.last_round_status = LastRoundStatus.SUCCESS
+        self.last_round_status = LastRoundStatus.NOT_RUN
 
         self.subject = ""
         self.category = ""
         self.last_response_ready = time.time()
         self.response_output_directory = response_output_directory
+
+    def to_dict(self):
+        return {
+            "LastRoundStatus": str(self.last_round_status).split(".")[-1],
+            "LastMessageTime": self.last_message_time,
+            "LastMessage": self.last_message,
+            "PartialMessage": self.partial_message,
+            "BotLoopStep": str(self.bot_loop_step).split(".")[-1],
+            "Subject": self.subject,
+            "Category": self.category,
+        }
 
     @property
     def last_message(self):
@@ -54,6 +66,7 @@ class Bot_Process(Thread):
 
     def generate_response(self):
         # TODO
+        print(self.subject, self.category)
         #wiki_text = SearchWiki_WithContext(search_text=self.subject, context=self.category)
         #prompt = self.subject + " " + self.category
         #youtube_content = SearchYoutube(prompt)
