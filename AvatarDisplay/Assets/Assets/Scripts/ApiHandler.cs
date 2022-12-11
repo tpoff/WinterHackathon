@@ -9,13 +9,13 @@ using UnityEngine.Networking;
 [Serializable]
 public class BotStatus
 {
-    public string lastRoundStatus;
-    public float lastMessageTime;
-    public string lastMessage;
-    public string partialMessage;
-    public string botLoopStep;
-    public string subject;
-    public string category;
+    public string BotLoopStep;
+    public string Category;
+    public string LastRoundStatus;
+    public float LastMessageTime;
+    public string LastMessage;
+    public string PartialMessage;
+    public string Subject;
 }
 public class ApiHandler : MonoBehaviour
 {
@@ -25,6 +25,8 @@ public class ApiHandler : MonoBehaviour
     public string generatedAudioPath = "C:\\Users\\Tyler\\Desktop\\Hackathon\\WinterHackathon\\BotContent\\tts_response.wav";
     public string initialPagePath = "C:\\Users\\Tyler\\Desktop\\Hackathon\\WinterHackathon\\BotContent\\SplashPage.html";
     public string initialAudioPath = "C:\\Users\\Tyler\\Desktop\\Hackathon\\WinterHackathon\\BotContent\\splash_audio.wav";
+    public string lookupAudio = "C:\\Users\\Tyler\\Desktop\\Hackathon\\WinterHackathon\\BotContent\\lookup.wav";
+
     public AvatarAnimatorScript animatorScript;
     public DynamicPageLoader pageLoader;
     public PulseEmissionFromSound emissionController;
@@ -40,6 +42,8 @@ public class ApiHandler : MonoBehaviour
     public string localSubject = "";
     public string localCategory = "";
 
+    public bool playSplash = true;
+
     IEnumerator GetBotStatus()
     {
         using (UnityWebRequest req = UnityWebRequest.Get(api_endpoint))
@@ -50,15 +54,14 @@ public class ApiHandler : MonoBehaviour
             byte[] result = req.downloadHandler.data;
             string weatherJSON = System.Text.Encoding.Default.GetString(result);
             BotStatus info = JsonUtility.FromJson<BotStatus>(weatherJSON);
-            Debug.Log(info);
             processApiResponseValues(
-                    info.lastRoundStatus,
-                        info.lastMessageTime,
-                        info.lastMessage,
-                        info.partialMessage,
-                        info.botLoopStep,
-                        info.subject,
-                        info.category);
+                    info.LastRoundStatus,
+                        info.LastMessageTime,
+                        info.LastMessage,
+                        info.PartialMessage,
+                        info.BotLoopStep,
+                        info.Subject,
+                        info.Category);
             StartCoroutine(GetBotStatus());
         }
     }
@@ -77,7 +80,10 @@ public class ApiHandler : MonoBehaviour
         pageLoader = GetComponent<DynamicPageLoader>();
         emissionController = GetComponent<PulseEmissionFromSound>();
         audioLoader = GetComponent<LoadDynamicAudio>();
-        StartCoroutine(WaitForSplash());
+        if (playSplash)
+            StartCoroutine(WaitForSplash());
+        else
+            StartCoroutine(GetBotStatus());
 
     }
 
@@ -96,33 +102,43 @@ public class ApiHandler : MonoBehaviour
             string category
         )
     {
+
+        if (!recievedFirstApiCall)
+        {
+            if (botLoopStep == "STANDBY")
+            {
+                Debug.Log("recording first api call...");
+                animatorScript.updateState(botLoopStep);
+                recievedFirstApiCall = true;
+                localLastMessageTime = lastMessageTime;
+            }
+        }
+        else
+        {
+            Debug.Log(botLoopStep);
+            animatorScript.updateState(botLoopStep);
+
+            if (localLastMessage != lastMessage && botLoopStep=="STANDBY")
+            {
+                Debug.Log("api records a need to update audio and page content...");
+                pageLoader.loadPage(generatedPagePath);
+                audioLoader.loadAudioClip(generatedAudioPath);
+                localLastMessageTime = lastMessageTime;
+                localLastMessage = lastMessage;
+            }
+            else if (botLoopStep== "DATA_LOOKUP" && localLastBotLoopStep != "DATA_LOOKUP")
+            {
+                audioLoader.loadAudioClip(lookupAudio);
+
+            }
+        }
+
         localCategory = category;
         localLastBotLoopStep = botLoopStep;
-        localLastMessage = lastMessage;
         localLastRoundStatus = lastRoundStatus;
         localPartialMessage = partialMessage;
         localCategory = category;
         localSubject = subject;
-
-
-        if (!recievedFirstApiCall && botLoopStep == "STANDBY")
-        {
-            animatorScript.updateState(localLastBotLoopStep);
-            recievedFirstApiCall = true;
-            pageLoader.loadPage(initialPagePath);
-            audioLoader.loadAudioClip(initialAudioPath);
-        }
-        else
-        {
-            animatorScript.updateState(localLastBotLoopStep);
-
-            if (localLastMessageTime != lastMessageTime)
-            {
-                pageLoader.loadPage(generatedPagePath);
-                audioLoader.loadAudioClip(generatedAudioPath);
-            }
-        }
-        localLastMessageTime = lastMessageTime;
 
     }
 }
