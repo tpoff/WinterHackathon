@@ -7,6 +7,7 @@
 # *********************************************************
 
 from flask import Flask, jsonify
+from Bot_Process import Bot_Process
 
 app = Flask(__name__)
 
@@ -22,4 +23,6 @@ def api_test():
     
 @app.route('/api/status')
 def api_status():
-  return "status"
+  proc = Bot_Process()
+  
+  return proc.to_dict()
