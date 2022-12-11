@@ -3,10 +3,15 @@ import time
 from Bot_Process.Bot_Process import Bot_Process, BotLoopStep
 
 if __name__ == "__main__":
+    '''process = Bot_Process()
+    process.subject = "Plano Texas"
+    process.category = "general"
+    print(process.to_dict())
+    process.generate_response()'''
+
 
     process = Bot_Process()
-    print(process.to_dict())
-    '''process.start()
+    process.start()
     print("starting bot...")
     while process.bot_loop_step == BotLoopStep.SETUP: pass
 
@@ -17,6 +22,6 @@ if __name__ == "__main__":
         print(process.partial_message)
         print(process.last_message)
         print(process.subject)
-        print(process.category)'''
+        print(process.category)
 
     exit()

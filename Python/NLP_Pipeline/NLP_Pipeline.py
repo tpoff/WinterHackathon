@@ -27,7 +27,8 @@ class NLP_Pipeline:
 
     def nlp_get_major_category(self, text_input):
         # major categories, text info, videos, images, tweets,
-        major_categories = ["videos", "images", "tweets", "info"]
+        #major_categories = ["videos", "images", "tweets", "info"]
+        major_categories = ["videos", "images", "info"]
         classes = self.zero_shot_classifier_pipeline(text_input, candidate_labels=major_categories)
         major_category = classes['labels'][0]
         major_category_score = classes['scores'][0]

@@ -2,11 +2,12 @@ import time
 
 from NLP_Pipeline.NLP_Pipeline import NLP_Pipeline
 from Speech_To_Text_Pipeline.Speech_To_Text_Pipeline import Live_Speech_To_Text_Pipeline
-from Text_To_Speech.Text_To_Speech import Text_To_Speech_Local_Wav_Output
+from Text_To_Speech.Text_To_Speech import Text_To_Speech_Local_Wav_Output, Text_To_Speech_Uberduck_Wav_Output
 from Common import *
 from threading import Thread
 from playsound import playsound
 from enum import Enum
+import re
 
 class BotLoopStep(Enum):
     SETUP = 0
@@ -26,7 +27,9 @@ class Bot_Process(Thread):
         self.bot_loop_step = BotLoopStep.SETUP
         self.speech_to_text_pipeline = Live_Speech_To_Text_Pipeline()
         self.nlp_pipeline = NLP_Pipeline()
-        self.text_to_speech_pipeline = Text_To_Speech_Local_Wav_Output()
+
+        #self.text_to_speech_pipeline = Text_To_Speech_Local_Wav_Output()
+        self.text_to_speech_pipeline = Text_To_Speech_Uberduck_Wav_Output()
 
         self.last_message_time = self.speech_to_text_pipeline.last_message_time
 
@@ -36,6 +39,8 @@ class Bot_Process(Thread):
         self.category = ""
         self.last_response_ready = time.time()
         self.response_output_directory = response_output_directory
+
+        self.text_filter = re.compile("[^a-zA-Z.?,'1-90]")
 
     def to_dict(self):
         return {
@@ -65,14 +70,54 @@ class Bot_Process(Thread):
 
 
     def generate_response(self):
-        # TODO
+        # available categories: videos, images, history, tourist, general
         print(self.subject, self.category)
-        #wiki_text = SearchWiki_WithContext(search_text=self.subject, context=self.category)
-        #prompt = self.subject + " " + self.category
-        #youtube_content = SearchYoutube(prompt)
-        #flickr_content = SearchFlickr(prompt)
-        #twitter_content = SearchTwitter(prompt)
-        self.text_to_speech_pipeline("and here we go again", "./temp.wav")
+        prompt = self.subject + " " + self.category
+
+        wiki_text = ""
+        youtube_content = ""
+        flickr_content = ""
+
+
+        # fuck it, case by case basis, not gonna try and be clever here
+        if self.category == "videos":
+            wiki_text = "Here are the videos I've found"
+            youtube_content = SearchYoutube_GetHTML(prompt)
+        elif self.category == "images":
+            wiki_text = "Here are the images I've found"
+            flickr_content = SearchFlickr_GetHTML(prompt)
+        elif self.category == "history":
+            wiki_text = SearchWiki_WithContext(search_text=self.subject, context=self.category)
+            youtube_content = SearchYoutube_GetHTML(prompt)
+            flickr_content = SearchFlickr_GetHTML(prompt)
+        elif self.category == "tourist":
+            wiki_text = SearchWiki_WithContext(search_text=self.subject, context=self.category)
+            youtube_content = SearchYoutube_GetHTML(prompt)
+            flickr_content = SearchFlickr_GetHTML(prompt)
+        elif self.category == "general": # general case,
+            wiki_text = SearchWiki_WithContext(search_text=self.subject, context=self.category)
+            youtube_content = SearchYoutube_GetHTML(prompt)
+            flickr_content = SearchFlickr_GetHTML(prompt)
+        else:
+            wiki_text = "I'm sorry, I didn't quite under stand what you said."
+
+        html_content = GenerateHTML(
+            wiki=wiki_text,
+            flickr=flickr_content,
+            youtube=youtube_content,
+            web_file=self.response_output_directory+"/html_result.html")
+        # todo TEMPORARY FIX, tts struggles with long series, need to stitch together another solution later,
+        # cuts the wikitext if it is over a character limit, and ensures it doesn't cut off mid-sentence,
+        limit = 500
+        wiki_text = self.text_filter.sub(" ", wiki_text)
+        wiki_text = "Here's what I've found. " + wiki_text
+        if len(wiki_text) > limit:
+            wiki_text = ShortenText(wiki_text, result_length=limit)
+            wiki_texts = wiki_text.split(".")[:-1]
+            wiki_text = ".".join(wiki_texts)
+        print(wiki_text)
+
+        self.text_to_speech_pipeline(wiki_text, self.response_output_directory+"/tts_response.wav")
 
     def bot_round(self, verbose=False):
         if verbose: print("in standby...")
