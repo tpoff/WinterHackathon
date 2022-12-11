@@ -160,7 +160,7 @@ def SearchYoutube(search_text="Dallas Interesting Fact", result_count=10):
   # API information
   api_service_name = "youtube"
   api_version = "v3"
-  DEVELOPER_KEY = 'AIzaSyDckal4boKo3Bq4ejBpCtTMvIHH56TGPTE'
+  DEVELOPER_KEY = 'AIzaSyBnLjTXwt2CNI8zWcciyxhLwS2CMXgiui4'
   
   # API client
   youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey = DEVELOPER_KEY)
