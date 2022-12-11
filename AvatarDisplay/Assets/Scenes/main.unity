@@ -1226,7 +1226,7 @@ MonoBehaviour:
   localLastBotLoopStep: SETUP
   localSubject: 
   localCategory: 
-  playSplash: 0
+  playSplash: 1
 --- !u!114 &1109913121
 MonoBehaviour:
   m_ObjectHideFlags: 0

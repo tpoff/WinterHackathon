@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Animations;
+using UnityEditor;
 
 public class AvatarAnimatorScript : MonoBehaviour
 {
     public bool isTalking = true;
     public bool isLookup = false;
     public Animator animator;//animator.SetBool("", false);
+    public RuntimeAnimatorController newController;
     public AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
@@ -15,7 +16,10 @@ public class AvatarAnimatorScript : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
     }
-
+    public void SetAnimator()
+    {
+        animator.runtimeAnimatorController = newController;
+    }
     // Update is called once per frame
     void Update()
     {
