@@ -189,6 +189,7 @@ def SearchYoutube_GetHTML(search_text="Dallas Interesting Fact", result_count=10
   
   # Build HTML Content List
   strhtml = """
+  <h2>Youtube Videos</h2>
   <table cellpadding='1'>
   """
 
@@ -238,6 +239,7 @@ def SearchFlickr_GetHTML(search_text="Dallas Texas landscape", result_count=30):
   
   # Build HTML Content List
   strhtml = """
+  <h2>Flickr Images</h2>
   <table cellpadding='1'><tr><td>
   """
 
@@ -312,27 +314,33 @@ def GenerateHTML(wiki=None, flickr=None, youtube=None, web_file="/Users/cv0361/s
           font: 35px Tahoma, sans-serif;
           border-bottom: #a1d2f2 5px solid;
       }
+      h2 {
+          font: 25px Tahoma, sans-serif;
+          border-bottom: #a1d2f2 5px solid;
+      }
       #wiki {
           font: 25px Arial, sans-serif;
-          width: 952px;
+          width: 950px;
           height: 200px;
+          border: #a1d2f2 1px solid;
+          overflow-x: hidden;
+          overflow-y: auto;
       }
       #flickr {
           width: 420px;
-          height: 500px;
+          height: 550px;
           float: left;
       }       
       #youtube {
           font: 15px Arial, sans-serif;
           width: 500px;
-          height: 500px;
+          height: 550px;
           float: left;
       }
       .square {     
         padding: 15px;
-        border: #a1d2f2 1px solid;
       }       
-    </style> 
+    </style>  
     
     <h1>Search Result</h1>
   """
@@ -361,12 +369,12 @@ if __name__ == "__main__":
     print("\n\n***************** Testing **********************\n")
 
     # ***************** Combined **********************\
-    wiki = SearchWiki_WithContext(search_text="Tokyo", context="History")
+    wiki = SearchWiki_WithContext(search_text="London", context="History")
     wiki = ShortenText(wiki, result_length=500)
     
-    flickr = SearchFlickr_GetHTML(search_text="Tokyo landscape", result_count=28)
+    flickr = SearchFlickr_GetHTML(search_text="London landscape", result_count=28)
     
-    youtube = SearchYoutube_GetHTML(search_text="Tokyo Interesting Fact", result_count=5)
+    youtube = SearchYoutube_GetHTML(search_text="London Interesting Fact", result_count=5)
     
     html = GenerateHTML(wiki=wiki + " ...", flickr=flickr, youtube=youtube)     # wiki=wiki + "...", flickr=flickr, youtube=youtube
     # print("html:", html)
