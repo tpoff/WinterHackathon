@@ -169,6 +169,8 @@
     <Compile Include="Assets\Vuplex\WebView\Demos\Scripts\CanvasPopupDemo.cs" />
     <Compile Include="Assets\Vuplex\WebView\Core\Scripts\Internal\ViewportMaterialView.cs" />
     <Compile Include="Assets\Assets\Scripts\DynamicPageLoader.cs" />
+    <Compile Include="Assets\Assets\Scripts\AvatarAnimatorScript.cs" />
+    <Compile Include="Assets\Assets\Scripts\ApiHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Vuplex\WebView\Standalone\Windows\Plugins\VuplexWebViewChromium\chrome_elf.dll" />
