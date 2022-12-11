@@ -118,7 +118,7 @@ def SearchWiki_WithContext(search_text="Dallas", context="History"):
 
   print("position2:", position2)     
 
-  text_found = text[position:position2].replace("\n", "")
+  text_found = text[position:position2].replace("\n", "").replace("=", "")
   
   return text_found
 
@@ -160,7 +160,7 @@ def SearchYoutube_GetHTML(search_text="Dallas Interesting Fact", result_count=10
   
   # Build HTML Content List
   strhtml = """
-  <table width='500px' cellpadding='1'>
+  <table cellpadding='1'>
   """
 
   for item in response['items']:
@@ -199,8 +199,7 @@ def SearchFlickr_GetHTML(search_text="Dallas Texas landscape", result_count=30):
   
   # Build HTML Content List
   strhtml = """
-  <table width='540px' cellpadding='1'>
-  <tr><td>
+  <table cellpadding='1'><tr><td>
   """
 
   for item in response['photos']['photo']:
@@ -214,7 +213,7 @@ def SearchFlickr_GetHTML(search_text="Dallas Texas landscape", result_count=30):
           except:
               pass
       
-      strhtml += f"<a target='_blank' href='{Large}'><img src='{Thumbnail}'></a> " 
+      strhtml += f"<a target='_blank' href='{Large}'><img width='100' height='67' src='{Thumbnail}'></a> " 
       
   strhtml += "</td></tr></table>"  
 
@@ -247,7 +246,7 @@ def SearchTwitter(search_text="Dallas Interesting", result_count=15):
   
   return response.json()
 
-def GenerateHTML(wiki="", flickr="", youtube="", web_file="/Users/cv0361/src/Hackathon/WebResult.html"):
+def GenerateHTML(wiki=None, flickr=None, youtube=None, web_file="/Users/cv0361/src/Hackathon/WebResult.html"):
   strhtml = """
     <!DOCTYPE html>
     <html>
@@ -258,25 +257,47 @@ def GenerateHTML(wiki="", flickr="", youtube="", web_file="/Users/cv0361/src/Hac
     <body>
 
     <style type="text/css">
+      h1 {
+          font: 35px Tahoma, sans-serif;
+          border-bottom: #a1d2f2 5px solid;
+      }
       #wiki {
-                background-color: #aaf3c9;
-            }
+          font: 25px Arial, sans-serif;
+          width: 952px;
+          height: 200px;
+      }
       #flickr {
-          background-color: #a1d2f2;
+          width: 420px;
+          height: 500px;
+          float: left;
       }       
       #youtube {
-          background-color: #efcef3;
+          font: 15px Arial, sans-serif;
+          width: 500px;
+          height: 500px;
+          float: left;
       }
       .square {     
         padding: 15px;
-            }       
+        border: #a1d2f2 1px solid;
+      }       
     </style> 
     
     <h1>Search Result</h1>
   """
   
-  strhtml += f"{wiki} {flickr} {youtube} </body></html>"
+  if wiki != None:
+    strhtml += f"<div class=\"square\" id=\"wiki\">{wiki}</div> "
   
+  if flickr != None:
+    strhtml += f"<div class=\"square\" id=\"flickr\">{flickr}</div> "
+    
+  if youtube != None:
+    strhtml += f"<div class=\"square\" id=\"youtube\">{youtube}</div> "
+  
+  strhtml += "</body></html>"
+  
+  # Persist html to file
   with open(web_file, "w") as file1:
     file1.write(strhtml)
   
@@ -288,9 +309,19 @@ if __name__ == "__main__":
     # Test Functions
     print("\n\n***************** Testing **********************\n")
 
-    GenerateHTML()
+    # ***************** Combined **********************\
+    wiki = SearchWiki_WithContext(search_text="Tokyo", context="History")
+    wiki = ShortenText(wiki, result_length=500)
+    
+    flickr = SearchFlickr_GetHTML(search_text="Tokyo landscape", result_count=28)
+    
+    youtube = SearchYoutube_GetHTML(search_text="Tokyo Interesting Fact", result_count=5)
+    
+    html = GenerateHTML(wiki=wiki + " ...", flickr=flickr, youtube=youtube)     # wiki=wiki + "...", flickr=flickr, youtube=youtube
+    # print("html:", html)
 
 
+    # ***************** Individually **********************\
     # x = RecordInput()
     # print("Result:", x)
     # x = TranscribeAudio()
