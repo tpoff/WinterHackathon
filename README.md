@@ -12,6 +12,11 @@ The basic feedback loop is the user speaks into the microphone, the audio inform
 ## How we built it
 We started with the workflow and found technology to help accomplish our goals. Unity was chosen as the visual output layer, Python as the driving force of the backend due to the ease of use with ML technologies. The automatic speech recognition was accomplished through Assembly.AI, while the NLP was done through a combination of HuggingFace's Named Entity Recognition pipeline to detect the subject and the HuggingFace's Zero Shot Classifiers to find intent from a list of possible classes. We used several apis to gather information from various sources using the results of the NLP process, we particularly focused on using the Wikipedia api to get a text body for the ai to speak. The Text to Speech was accomplished using UberDuck's API. After the processing, the content was put into an html format, loaded and displayed into unity, where an animated avatar would speak the results of the TTS
 
+## Run Overview
+The system requires that both a python processing application (in the Python folder) be run on system as well as a Unity application which acts as the display layer. Python will do the processing and api calls while Unity renders the avatar, the applications talk to each other through a local api that will be on localhost. Future work will simplify this workflow.
+
+In order to run the application the Python/Flask application must be run first, then the Unity front end. Note that the Python/Flask application can be left on while the Unity Front End can be restarted as needed without issue. 
+
 ## Installation Instruction
 ### Install Python Libraries
 ```
@@ -21,11 +26,41 @@ $ conda install --file conda_requirements.txt
 ```
 
 ### Setup Flask
+Launching the Flask app requires running it as a python script and not using the flask cli. This is due to some persistency issues with a background process required by the service.
 ```
-$ export FLASK_APP=FlaskApp
-$ export FLASK_ENV=development
-$ flask run
+$ cd Python
+$ python FlaskApp.py
 ```
+
+### Resolve Unity Package Errors
+The Unity project makes use of a paid plugin to render HTML documents in the engine. Due to the terms set in the licensing agreement we cannot redistribute the code. So the code must be imported seperatly. 
+The plugin can be found here: https://assetstore.unity.com/packages/tools/gui/3d-webview-for-windows-and-macos-web-browser-154144
+
+Using the Unity package manager, import the required assets. NOTE: When you first launch Unity you will have to do so in safe mode. ![img.png](Readme_Images/img.png)
+
+from there you can import the package using the unity package manager and the errors will be resolved. 
+
+### Setup Unity
+In order to run the project you will also have to change a few paths within Unity. Due to the way Unity handles loading dynamic data we have to provide absolute paths, and due to time constraints we were unable to dynamically construct these at runtime so they were left as constant variables. 
+Future changes to the project will resolve this issue. 
+
+In the main.scene in Unity, select the WebViewPrefab in the Hierarchy. 
+
+![img_1.png](Readme_Images/img_1.png)
+
+In the inspector tab, replace the "Initial URL (optional)" with the following path: <your_system_path_to_repository>\WinterHackathon\BotContent\SplashPage.html
+
+![img_2.png](Readme_Images/img_2.png)
+
+Next select the Avatar in the hierarchy. 
+
+![img_3.png](Readme_Images/img_3.png)
+
+Replace the "Generated Page Path", "Generated Audio Path", "Initial Page Path", and "Initial Audio Path" im a simlar manner as you did with the WebViewPrefab, directing it to the files as they appear in your system directory. 
+
+![img_4.png](Readme_Images/img_4.png)
+
+Afterwards you may run the project in Unity to view the results, or you may choose to compile and build the project into a standalone application through the Unity Build System. We recommend for those who just wish to observe the system to run it in editor.
 
 ## Technical Links
 
@@ -69,6 +104,9 @@ $ flask run
 ### Flask
 - https://www.digitalocean.com/community/tutorials/how-to-make-a-web-application-using-flask-in-python-3#prerequisites
 - https://www.tutorialspoint.com/flask/flask_application.htm
+### Mixamo
+Credit for the animation library and use of the X-Bot model
+- https://www.mixamo.com/
 
 ## What's next for Speak-2-Me
 Distributed deployment, currently the platform can only exist on a single system with no way for users to view it remotely (i.e. through a browser). 
