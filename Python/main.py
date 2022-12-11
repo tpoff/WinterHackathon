@@ -1,6 +1,6 @@
 import time
 
-from Bot_Process.Bot_Process import Bot_Process, BotLoopStep
+from Bot_Process import Bot_Process, BotLoopStep
 
 if __name__ == "__main__":
     process = Bot_Process()

@@ -1,0 +1,12 @@
+numpy
+pandas
+transformers
+torch
+pyaudio
+websockets
+asyncio
+playsound
+sounddevice
+scipy
+flickrapi
+wikipedia
