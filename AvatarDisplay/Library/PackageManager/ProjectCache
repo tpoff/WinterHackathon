@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638063217686136314
-    m_Hash: 1408241324
+      ticks: 638063226155346253
+    m_Hash: 1508998822
   m_LockFileStatus:
     m_FilePath: C:/Users/Tyler/Desktop/Hackathon/WinterHackathon/AvatarDisplay/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638063217852602457
-    m_Hash: 994498553
+      ticks: 638063226155356250
+    m_Hash: 2287269366
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
