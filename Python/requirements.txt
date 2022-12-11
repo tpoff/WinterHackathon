@@ -10,3 +10,5 @@ sounddevice
 scipy
 flickrapi
 wikipedia
+uberduck
+PyObjC
