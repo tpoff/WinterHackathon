@@ -1,1 +1,5 @@
 *.wav
+/AvatarDisplay/Logs/*
+/AvatarDisplay/Temp/*
+/AvatarDisplay/UserSettings/*
+/AvatarDisplay/Builds/*
