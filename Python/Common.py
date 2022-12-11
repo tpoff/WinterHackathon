@@ -2,7 +2,13 @@
 # ***************** Common module ******************************************** 
 # **************************************************************************** 
 
+VERBOSE = True
+
 def RecordInput(record_file="/Users/cv0361/src/Hackathon/AARecording.wav"):
+  if VERBOSE:
+    print("=> RecordInput()")
+    print("record_file:", record_file)
+    
   import sounddevice as sd
   from scipy.io.wavfile import write
 
@@ -33,6 +39,10 @@ def read_audio_file(filename, chunk_size=5242880):
               yield data
                          
 def TranscribeAudio(record_file="/Users/cv0361/src/Hackathon/AARecording.wav"):
+  if VERBOSE:
+    print("=> TranscribeAudio()")
+    print("record_file:", record_file)
+    
   import requests
   import time
   
@@ -76,7 +86,7 @@ def TranscribeAudio(record_file="/Users/cv0361/src/Hackathon/AARecording.wav"):
       status = resobj['status']
       # End 
       
-      print("Waiting....", loop)
+      if VERBOSE: print("Waiting....", loop)
       
   if loop < MAX_COUNT:
       print("API done!")
@@ -86,6 +96,10 @@ def TranscribeAudio(record_file="/Users/cv0361/src/Hackathon/AARecording.wav"):
   return resobj['text']   # Transcribed text
 
 def SearchWiki(search_text="Dallas"):
+  if VERBOSE:
+    print("=> SearchWiki()")
+    print("search_text:", search_text)
+    
   import wikipedia
   
   # wikipedia.set_lang("en")
@@ -94,6 +108,11 @@ def SearchWiki(search_text="Dallas"):
   return response
 
 def SearchWiki_WithContext(search_text="Dallas", context="History"):
+  if VERBOSE:
+    print("=> SearchWiki_WithContext()")
+    print("search_text:", search_text)
+    print("context:", context)
+    
   import wikipedia
   
   Page = wikipedia.page(search_text)
@@ -103,20 +122,20 @@ def SearchWiki_WithContext(search_text="Dallas", context="History"):
   text_lowcase = text.lower()
 
   position = text_lowcase.find(context_lowcase)
-  print("position:", position)
+  if VERBOSE: print("position:", position)
   
   if position < 0:                                              # not found?
-      print("Search with Context not found")
+      if VERBOSE: print("Search with Context not found")
       return SearchWiki(search_text)
 
   position = text_lowcase.find("\n", position)                  # Offset to end of tag
-  print("position:", position)
+  if VERBOSE: print("position:", position)
 
   position2 = text_lowcase.find("== ", position)
   if (position2 < 0) or ((position2 - position) < 50): 
       position2 = len(text_lowcase)                              # Not found ending section
 
-  print("position2:", position2)     
+  if VERBOSE: print("position2:", position2)     
 
   text_found = text[position:position2].replace("\n", "").replace("=", "")
   
@@ -131,6 +150,11 @@ def ShortenText(original_text, result_length=300):
   return response
 
 def SearchYoutube(search_text="Dallas Interesting Fact", result_count=10):
+  if VERBOSE:
+    print("=> SearchYoutube()")
+    print("search_text:", search_text)
+    print("result_count:", result_count)
+    
   import googleapiclient.discovery
   
   # API information
@@ -156,6 +180,11 @@ def SearchYoutube(search_text="Dallas Interesting Fact", result_count=10):
   return request.execute()
 
 def SearchYoutube_GetHTML(search_text="Dallas Interesting Fact", result_count=10):
+  if VERBOSE:
+    print("=> SearchYoutube_GetHTML()")
+    print("search_text:", search_text)
+    print("result_count:", result_count)
+    
   response = SearchYoutube(search_text, result_count)
   
   # Build HTML Content List
@@ -184,6 +213,11 @@ def SearchYoutube_GetHTML(search_text="Dallas Interesting Fact", result_count=10
   return strhtml
 
 def SearchFlickr(search_text="Dallas Texas landscape", result_count=30):
+  if VERBOSE:
+    print("=> SearchFlickr()")
+    print("search_text:", search_text)
+    print("result_count:", result_count)
+    
   from flickrapi import FlickrAPI
   
   FLICKR_PUBLIC = '70871ff16d3a400b1c4675bd423abd13'
@@ -195,6 +229,11 @@ def SearchFlickr(search_text="Dallas Texas landscape", result_count=30):
   return flickr.photos.search(text=search_text, sort="relevance", per_page=result_count, extras=extras)
     
 def SearchFlickr_GetHTML(search_text="Dallas Texas landscape", result_count=30):
+  if VERBOSE:
+    print("=> SearchFlickr_GetHTML()")
+    print("search_text:", search_text)
+    print("result_count:", result_count)
+    
   response = SearchFlickr(search_text, result_count)
   
   # Build HTML Content List
@@ -228,6 +267,11 @@ def Twitter_bearer_oauth(r):
     return r
 
 def SearchTwitter(search_text="Dallas Interesting", result_count=15):
+  if VERBOSE:
+    print("=> SearchTwitter()")
+    print("search_text:", search_text)
+    print("result_count:", result_count)
+    
   import requests
   import json
   
@@ -247,6 +291,13 @@ def SearchTwitter(search_text="Dallas Interesting", result_count=15):
   return response.json()
 
 def GenerateHTML(wiki=None, flickr=None, youtube=None, web_file="/Users/cv0361/src/Hackathon/WebResult.html"):
+  if VERBOSE:
+    print("=> GenerateHTML()")
+    print("wiki has content:", wiki != None)
+    print("flickr has content:", flickr != None)
+    print("youtube has content:", youtube != None)
+    print("web_file:", web_file)
+    
   strhtml = """
     <!DOCTYPE html>
     <html>
@@ -321,7 +372,7 @@ if __name__ == "__main__":
     # print("html:", html)
 
 
-    # ***************** Individually **********************\
+    # # ***************** Individually **********************\
     # x = RecordInput()
     # print("Result:", x)
     # x = TranscribeAudio()
