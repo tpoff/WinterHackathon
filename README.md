@@ -1,6 +1,16 @@
 # Speak-2-Me
+[![Watch Video Presentation](https://i.ytimg.com/an_webp/318jiesm8wo/mqdefault_6s.webp?du=3000&sqp=COyk2JwG&rs=AOn4CLAWTtpyjfSu38pcbCNUl4wJ8ystqg)](https://youtu.be/318jiesm8wo)
+
+## Inspiration
+Recent advancements in NLP and Unity make interactive avatars more accessible than ever. We believe that interactive AI that users can simply have a conversation with to answer their questions and complete their requests will be the next wave of customer service. We were inspired by videos from companies such as Nvidia showcasing the possibilities of these AI and decided to build one ourselves using the latest in NLP.
+
 ## Project Description
-Prompt users to speak any question such as "Tell me something about Dallas". The application will perform NLP to extract subject and intend. User command will be used to search for appropriate Wiki, Youtube, and Flickr content. Text result will be spoken to user as response.
+Our bot can answer questions about locations on Earth. Users can naturally speak their questions and requests to the bot and get answers spoken back to them. If a user asks "What is the history of Washington DC" our ai will be able to deliver a brief summary. It can also deliver images and youtube videos pertaining to the topic being discussed. The digital avatar also provides visual feedback and increases the interaction with the user, users can see the bot speaking back to them. 
+
+The basic feedback loop is the user speaks into the microphone, the audio information is transcribed in real time using Assembly.AI technology, the text output is then run through an NLP process to extract the subject of the querry (where) and the question (what). Using those pieces of information the bot searches wikipedia, flickr and youtube for relevant information, constructs an html to present the information and then speaks the information it found online back to the user, as well as display the visual results. 
+
+## How we built it
+We started with the workflow and found technology to help accomplish our goals. Unity was chosen as the visual output layer, Python as the driving force of the backend due to the ease of use with ML technologies. The automatic speech recognition was accomplished through Assembly.AI, while the NLP was done through a combination of HuggingFace's Named Entity Recognition pipeline to detect the subject and the HuggingFace's Zero Shot Classifiers to find intent from a list of possible classes. We used several apis to gather information from various sources using the results of the NLP process, we particularly focused on using the Wikipedia api to get a text body for the ai to speak. The Text to Speech was accomplished using UberDuck's API. After the processing, the content was put into an html format, loaded and displayed into unity, where an animated avatar would speak the results of the TTS
 
 ## Installation Instruction
 ### Install Python Libraries
@@ -60,6 +70,12 @@ $ flask run
 - https://www.digitalocean.com/community/tutorials/how-to-make-a-web-application-using-flask-in-python-3#prerequisites
 - https://www.tutorialspoint.com/flask/flask_application.htm
 
+## What's next for Speak-2-Me
+Distributed deployment, currently the platform can only exist on a single system with no way for users to view it remotely (i.e. through a browser). 
+
+More conversational type interaction. The interaction with our avatar is very 1 turn, user asks question, bot gives answer, with limited memory or commentary tying back to previous points in the conversation. 
+
+Better distribution of state management and processing allocation. 
 
 ---
 *Copyright (c) 2022.* [AssemblyAI Hackathon](https://hackathon.assemblyai.com/)
