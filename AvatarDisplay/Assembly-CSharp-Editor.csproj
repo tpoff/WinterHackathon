@@ -56,22 +56,22 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\DefaultPointerInputDetectorInspector.cs" />
-    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\CanvasPointerInputDetectorInspector.cs" />
-    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\ScriptingSymbols.cs" />
     <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\WebViewPrefabInspector.cs" />
-    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\EditorUtils.cs" />
-    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\OptionalDependencyAttribute.cs" />
-    <Compile Include="Assets\Vuplex\WebView\Standalone\Mac\Editor\MacBuildScript.cs" />
-    <Compile Include="Assets\Vuplex\WebView\Standalone\Mac\Editor\MacEditorScript.cs" />
-    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\CanvasWebViewPrefabInspector.cs" />
-    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\LabelDrawer.cs" />
-    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\AndroidEditorUtils.cs" />
-    <Compile Include="Assets\Vuplex\WebView\Standalone\Windows\Editor\WindowsBuildScript.cs" />
-    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\ConditionalCompilationUtility.cs" />
-    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\DocumentationLinkDrawer.cs" />
+    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\CanvasPointerInputDetectorInspector.cs" />
     <Compile Include="Assets\Vuplex\WebView\Standalone\Editor\StandaloneVideoCodecsWindow.cs" />
+    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\LabelDrawer.cs" />
+    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\ConditionalCompilationUtility.cs" />
+    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\AndroidEditorUtils.cs" />
+    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\OptionalDependencyAttribute.cs" />
+    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\ScriptingSymbols.cs" />
+    <Compile Include="Assets\Vuplex\WebView\Standalone\Mac\Editor\MacBuildScript.cs" />
+    <Compile Include="Assets\Vuplex\WebView\Standalone\Windows\Editor\WindowsBuildScript.cs" />
+    <Compile Include="Assets\Vuplex\WebView\Standalone\Mac\Editor\MacEditorScript.cs" />
+    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\DefaultPointerInputDetectorInspector.cs" />
+    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\CanvasWebViewPrefabInspector.cs" />
     <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\BaseWebViewPrefabInspector.cs" />
+    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\EditorUtils.cs" />
+    <Compile Include="Assets\Vuplex\WebView\Core\Editor\Scripts\DocumentationLinkDrawer.cs" />
     <Compile Include="Assets\Vuplex\WebView\Core\Plugins\Editor\OldWebViewDirectoryDeleter.cs" />
   </ItemGroup>
   <ItemGroup>

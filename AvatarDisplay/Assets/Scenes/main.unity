@@ -298,7 +298,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 242972007}
   m_LocalRotation: {x: 0.12690605, y: -0.6222837, z: -0.76800793, w: 0.08259281}
-  m_LocalPosition: {x: -0.033749163, y: 0.07157163, z: 0.118504465}
+  m_LocalPosition: {x: -0.034, y: 0.066, z: 0.117}
   m_LocalScale: {x: 0.041801065, y: 0.041801054, z: 0.04180106}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1196,6 +1196,7 @@ MonoBehaviour:
   isTalking: 1
   isLookup: 0
   animator: {fileID: 261568717}
+  newController: {fileID: 0}
   audioSource: {fileID: 0}
 --- !u!114 &1109913120
 MonoBehaviour:
@@ -1772,7 +1773,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2077186349}
   m_LocalRotation: {x: 0.12690605, y: -0.6222837, z: -0.76800793, w: 0.08259281}
-  m_LocalPosition: {x: 0.050300326, y: 0.0674618, z: 0.11453204}
+  m_LocalPosition: {x: 0.036, y: 0.065, z: 0.12}
   m_LocalScale: {x: 0.041801065, y: 0.041801054, z: 0.04180106}
   m_ConstrainProportionsScale: 0
   m_Children: []
