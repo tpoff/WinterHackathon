@@ -22,7 +22,7 @@ class LastRoundStatus(Enum):
     NO_SUBJECT = 2
 
 class Bot_Process(Thread):
-    def __init__(self, response_output_directory="./"):
+    def __init__(self, response_output_directory="./../BotContent"):
         Thread.__init__(self)
         self.bot_loop_step = BotLoopStep.SETUP
         self.speech_to_text_pipeline = Live_Speech_To_Text_Pipeline()
@@ -71,7 +71,8 @@ class Bot_Process(Thread):
 
     def generate_response(self):
         # available categories: videos, images, history, tourist, general
-        print(self.subject, self.category)
+
+        #print(self.subject, self.category)
         prompt = self.subject + " " + self.category
 
         wiki_text = ""
@@ -80,11 +81,14 @@ class Bot_Process(Thread):
 
 
         # fuck it, case by case basis, not gonna try and be clever here
-        if self.category == "videos":
-            wiki_text = "Here are the videos I've found"
+        if self.subject == "":
+            wiki_text = "I'm sorry, I didn't quite under stand what you said."
+            self.last_round_status = LastRoundStatus.NO_SUBJECT
+        elif self.category == "videos":
+            wiki_text = "Videos for "+self.subject
             youtube_content = SearchYoutube_GetHTML(prompt)
         elif self.category == "images":
-            wiki_text = "Here are the images I've found"
+            wiki_text = "Images for "+self.subject
             flickr_content = SearchFlickr_GetHTML(prompt)
         elif self.category == "history":
             wiki_text = SearchWiki_WithContext(search_text=self.subject, context=self.category)
@@ -101,21 +105,25 @@ class Bot_Process(Thread):
         else:
             wiki_text = "I'm sorry, I didn't quite under stand what you said."
 
-        html_content = GenerateHTML(
-            wiki=wiki_text,
-            flickr=flickr_content,
-            youtube=youtube_content,
-            web_file=self.response_output_directory+"/html_result.html")
-        # todo TEMPORARY FIX, tts struggles with long series, need to stitch together another solution later,
-        # cuts the wikitext if it is over a character limit, and ensures it doesn't cut off mid-sentence,
-        limit = 500
-        wiki_text = self.text_filter.sub(" ", wiki_text)
-        wiki_text = "Here's what I've found. " + wiki_text
-        if len(wiki_text) > limit:
-            wiki_text = ShortenText(wiki_text, result_length=limit)
-            wiki_texts = wiki_text.split(".")[:-1]
-            wiki_text = ".".join(wiki_texts)
-        print(wiki_text)
+        if self.subject != "":
+            # remove non-ascii characters
+            wiki_text = wiki_text.encode('ascii', errors='ignore').decode()
+            html_content = GenerateHTML(
+                wiki=wiki_text,
+                flickr=flickr_content,
+                youtube=youtube_content,
+                web_file=self.response_output_directory+"/html_result.html")
+            # todo TEMPORARY FIX, tts struggles with long series, need to stitch together another solution later,
+            # cuts the wikitext if it is over a character limit, and ensures it doesn't cut off mid-sentence,
+
+            limit = 500
+            wiki_text = self.text_filter.sub(" ", wiki_text)
+            wiki_text = "Here's what I've found. " + wiki_text
+            if len(wiki_text) > limit:
+                wiki_text = ShortenText(wiki_text, result_length=limit)
+                wiki_texts = wiki_text.split(".")[:-1]
+                wiki_text = ".".join(wiki_texts)
+            #print(wiki_text)
 
         self.text_to_speech_pipeline(wiki_text, self.response_output_directory+"/tts_response.wav")
 

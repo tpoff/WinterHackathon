@@ -1,4 +1,4 @@
-*.wav
+/Python/*.wav
 /AvatarDisplay/Logs/*
 /AvatarDisplay/Temp/*
 /AvatarDisplay/UserSettings/*

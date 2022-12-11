@@ -357,8 +357,8 @@ def GenerateHTML(wiki=None, flickr=None, youtube=None, web_file="/Users/cv0361/s
   strhtml += "</body></html>"
   
   # Persist html to file
-  with open(web_file, "w") as file1:
-    file1.write(strhtml)
+  with open(web_file, "w", encoding='utf-8') as file1:
+    file1.write(str(strhtml))
   
   return strhtml
 

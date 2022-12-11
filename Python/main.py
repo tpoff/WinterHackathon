@@ -1,14 +1,20 @@
 import time
 
 from Bot_Process import Bot_Process, BotLoopStep
+from Text_To_Speech.Text_To_Speech import Text_To_Speech_Local_Wav_Output, Text_To_Speech_Uberduck_Wav_Output
 
 if __name__ == "__main__":
     process = Bot_Process()
-    process.subject = "California"
-    process.category = "general"
+    process.subject = "Plane"
+    process.category = "history"
     print(process.to_dict())
     process.generate_response()
 
+
+
+    #text_to_speech_pipeline = Text_To_Speech_Uberduck_Wav_Output()
+    #text = '''Hi there! I'm a bot created for the assembly aye eye Winter Hack a thon! I'm designed to answer questions about countries and other locations around the world. I'm a bit limited, but I'll try my best to tell you about different places. Ask me anything!'''
+    #text_to_speech_pipeline(text, "./../BotContent" + "/splash_audio.wav")
 
     '''process = Bot_Process()
     process.start()
