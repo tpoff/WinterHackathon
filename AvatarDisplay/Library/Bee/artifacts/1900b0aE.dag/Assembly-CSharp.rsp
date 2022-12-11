@@ -359,6 +359,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Assets/Scripts/ControlEmission.cs"
+"Assets/Assets/Scripts/DynamicPageLoader.cs"
 "Assets/Assets/Scripts/LoadDynamicAudio.cs"
 "Assets/Assets/Scripts/PageChanger.cs"
 "Assets/Assets/Scripts/PulseEmissionFromSound.cs"

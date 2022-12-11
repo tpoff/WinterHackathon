@@ -168,6 +168,7 @@
     <Compile Include="Assets\Vuplex\WebView\Core\Scripts\IPointerInputDetector.cs" />
     <Compile Include="Assets\Vuplex\WebView\Demos\Scripts\CanvasPopupDemo.cs" />
     <Compile Include="Assets\Vuplex\WebView\Core\Scripts\Internal\ViewportMaterialView.cs" />
+    <Compile Include="Assets\Assets\Scripts\DynamicPageLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Vuplex\WebView\Standalone\Windows\Plugins\VuplexWebViewChromium\chrome_elf.dll" />
