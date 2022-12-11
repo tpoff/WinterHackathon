@@ -78,7 +78,6 @@
     <Compile Include="Assets\Vuplex\WebView\Standalone\Scripts\StandaloneWebPlugin.cs" />
     <Compile Include="Assets\Vuplex\WebView\Core\Scripts\MockWebView.cs" />
     <Compile Include="Assets\Vuplex\WebView\Standalone\Windows\Scripts\WindowsWebView.cs" />
-    <Compile Include="Assets\Assets\Scripts\PageChanger.cs" />
     <Compile Include="Assets\Vuplex\WebView\Core\Scripts\ProgressChangeType.cs" />
     <Compile Include="Assets\Vuplex\WebView\Core\Scripts\WebViewUnavailableException.cs" />
     <Compile Include="Assets\Assets\Scripts\LoadDynamicAudio.cs" />
